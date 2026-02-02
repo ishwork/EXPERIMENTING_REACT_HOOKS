@@ -1,0 +1,15 @@
+# Dependency directories
+node_modules
+
+# Environment files
+.env
+.env.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# Build output
+dist
