@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router';
 import './App.css';
 
 import UseOptimisticExample from './components/UseOptimisticExample';
+import UseActionStateExample from './components/UseActionState';
 
 function App() {
   return (
@@ -22,11 +23,22 @@ function App() {
           >
             useOptimistic
           </NavLink>
+          <NavLink 
+            to="/use-action-state" 
+            className={({ isActive }) => 
+              isActive 
+                ? 'px-8 py-3 text-gray-700 text-lg font-bold border-b-[3px] border-black inline-block' 
+                : 'px-8 py-3 text-gray-700 text-lg inline-block hover:text-blue-600'
+            }
+          >
+            useActionState
+          </NavLink>
         </nav>
         
         <Routes>
           <Route path="/" element={<UseOptimisticExample />} />
           <Route path="/use-optimistic" element={<UseOptimisticExample />} />
+          <Route path="/use-action-state" element={<UseActionStateExample />} />
         </Routes>
       </div>
     </Router>
