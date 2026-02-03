@@ -5,6 +5,7 @@ This project is used to test and explore React 19 hooks with interactive example
 ## Features
 
 - **useOptimistic Hook**: Demonstrates optimistic UI updates with a todo list
+- **useActionState Hook**: Demonstrates form handling with async actions and state management
 
 ## Tech Stack
 
@@ -30,7 +31,6 @@ npm run build
 ## Navigation
 
 The app includes navigation between different hook examples:
-- `/use` - use hook example
 - `/use-optimistic` - useOptimistic hook example
 - `/use-action-state` - useActionState hook example
 
@@ -41,6 +41,7 @@ This project serves as a learning and testing ground for the new hooks introduce
 ## Table of Contents
 
 1. [useOptimistic Hook](#useoptimistic-hook)
+2. [useActionState Hook](#useactionstate-hook)
 
 ## Hooks Overview
 
@@ -92,3 +93,46 @@ Use `useOptimistic` when:
 - Server might return different data than expected
 - Action has complex validation that might fail
 - Real-time data accuracy is critical
+
+---
+
+### useActionState Hook
+
+`useActionState` is a React Hook introduced in React 19 that helps you manage state updates based on the result of a form action. It simplifies handling async form submissions by automatically managing loading states, errors, and results.
+
+**Key Concepts:**
+- Binds async actions directly to forms using the `action` attribute
+- Automatically handles FormData serialization
+- Built-in pending state management
+- Returns updated state from the action function
+- Eliminates need for manual form handling with useTransition
+
+### useActionState Basic Syntax
+
+```javascript
+const [state, formAction, isPending] = useActionState(
+  actionFn,
+  initialState
+);
+```
+
+**Parameters:**
+- `actionFn`: Async function that receives (previousState, formData) and returns new state
+- `initialState`: The initial state value
+
+**Returns:**
+- `state`: The current state returned from the action function
+- `formAction`: Function to pass to form's `action` prop
+- `isPending`: Boolean indicating if the action is currently executing
+
+### useActionState When to Use
+
+Use `useActionState` when:
+
+✅ **Good use cases:**
+- Form submissions with validation
+- User registration/login forms
+- Search forms with async results
+- Multi-step forms
+- Forms that need server-side validation
+- Any form that updates based on submission results
