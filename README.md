@@ -6,6 +6,7 @@ This project is used to test and explore React 19 hooks with interactive example
 
 - **useOptimistic Hook**: Demonstrates optimistic UI updates with a todo list
 - **useActionState Hook**: Demonstrates form handling with async actions and state management
+- **useTransition Hook**: Demonstrates non-blocking UI updates during expensive operations
 
 ## Tech Stack
 
@@ -33,6 +34,7 @@ npm run build
 The app includes navigation between different hook examples:
 - `/use-optimistic` - useOptimistic hook example
 - `/use-action-state` - useActionState hook example
+- `/use-transition` - useTransition hook example
 
 ## Purpose
 
@@ -42,6 +44,7 @@ This project serves as a learning and testing ground for the new hooks introduce
 
 1. [useOptimistic Hook](#useoptimistic-hook)
 2. [useActionState Hook](#useactionstate-hook)
+3. [useTransition Hook](#usetransition-hook)
 
 ## Hooks Overview
 
@@ -98,7 +101,7 @@ Use `useOptimistic` when:
 
 ### useActionState Hook
 
-`useActionState` is a React Hook introduced in React 19 that helps you manage state updates based on the result of a form action. It simplifies handling async form submissions by automatically managing loading states, errors, and results.
+`useActionState` is a React Hook introduced in React 19 that helps to manage state updates based on the result of a form action. It simplifies handling async form submissions by automatically managing loading states, errors, and results.
 
 **Key Concepts:**
 - Binds async actions directly to forms using the `action` attribute
@@ -136,3 +139,79 @@ Use `useActionState` when:
 - Multi-step forms
 - Forms that need server-side validation
 - Any form that updates based on submission results
+
+---
+
+### useTransition Hook
+
+`useTransition` is a React Hook that lets to update the state without blocking the UI. It allows to mark certain state updates as non-urgent (transitions), so React can keep the interface responsive by prioritizing user interactions over less important updates.
+
+**Key Concepts:**
+- Marks state updates as non-urgent, allowing React to interrupt them
+- Keeps the UI responsive during expensive rendering operations
+- Provides a pending state to show loading indicators
+- Enables concurrent rendering for better user experience
+- Prevents input lag during heavy computations
+
+### useTransition Basic Syntax
+
+```javascript
+const [isPending, startTransition] = useTransition();
+```
+
+**Parameters:**
+- None
+
+**Returns:**
+- `isPending`: Boolean indicating if there's a pending transition
+- `startTransition`: Function to mark state updates as transitions
+
+**Usage Example:**
+
+```javascript
+const [isPending, startTransition] = useTransition();
+const [input, setInput] = useState('');
+const [list, setList] = useState([]);
+
+function handleChange(e) {
+  setInput(e.target.value); // Urgent: Keep input responsive
+  
+  startTransition(() => {
+    // Non-urgent: Can be interrupted
+    setList(generateLargeList(e.target.value));
+  });
+}
+```
+
+### useTransition When to Use
+
+Use `useTransition` when:
+
+✅ **Good use cases:**
+- Filtering or searching through large lists
+- Tab switching with expensive content
+- Route transitions with heavy components
+- Real-time search/filter functionality
+- Data visualization updates
+- Any UI update that involves heavy computation
+- When we want to show loading states for slow updates
+
+❌ **Avoid when:**
+- Controlled inputs (input values should update immediately)
+- All updates are fast and don't cause performance issues
+- we need the update to complete before showing UI changes
+- Critical updates that must be synchronous
+
+### useTransition vs useOptimistic
+
+**useTransition:**
+- Marks updates as low priority
+- Keeps UI responsive during slow updates
+- Used for improving perceived performance
+- Shows pending state during transition
+
+**useOptimistic:**
+- Shows predicted outcome immediately
+- Reverts if the actual result differs
+- Used for better user experience with async actions
+- Specifically for optimistic UI updates
