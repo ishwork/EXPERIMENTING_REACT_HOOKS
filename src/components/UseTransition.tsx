@@ -1,4 +1,4 @@
-import React, { useState, useTransition } from 'react';
+import { useState, useTransition } from 'react';
 
 function UseTransition() {
   const [isPending, startTransition] = useTransition();
